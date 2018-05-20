@@ -47,12 +47,14 @@ def WKNN(P_Signatures, SignatureLocs, P_Test, k):
 
         weightLocsx = np.concatenate((weightLocs0, weightLocs1), axis=0)
         X = weightLocsx.sum(axis=0)
+        return np.matrix(np.array(X))
     else:
         for m in range(0, 2):
             if zeros[0,m] == True:
                     SelectedLocs = [SignatureLocs[a[0,m],:]]
         X = [np.average(SelectedLocs,axis=0)]
+        return np.matrix(np.array(X))
     print(X)
 
-WKNN(Xq, Yq, DataTest, 2)
+# WKNN(Xq, Yq, DataTest, 2)
 

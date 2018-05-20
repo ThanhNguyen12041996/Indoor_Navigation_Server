@@ -4,6 +4,7 @@ import math
 def Radar(P_Signatures, SignatureLocs, P_Test,k):
     M = len(P_Signatures[:,1])
     N = len(P_Test[:,1])
+
     Euclidean_dist = []
     X = []
 
