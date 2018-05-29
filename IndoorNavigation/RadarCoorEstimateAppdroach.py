@@ -16,10 +16,6 @@ def Radar(P_Signatures, SignatureLocs, P_Test,k):
                 if j == 86:
                      print("")
                 a = [Euclidean_dist.argsort(axis=0)]
-    # print(a)
-    # print(a[0][1])
     SelectedLocs = [SignatureLocs[[a[0][0],a[0][1]], :]]
-    # print(SelectedLocs)
     X = [np.average(SelectedLocs,axis=1)]
-    # print(X)
     return np.matrix(np.array(X))

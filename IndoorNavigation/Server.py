@@ -15,9 +15,7 @@ from LWPApproach import WKNN
 mat = scipy.io.loadmat('IndoorNav2018.mat')
 
 CoordinatesTrainData = mat['CoordinatesTrainData']
-CoordinatesTestData = mat['CoordinatesTestData']
 DataTrain = mat['DataCuoiTrain']
-DataTest = np.array([[-68,-79,-90,-80,-84,-89,-85,-84,-90,-91,-77,-74,-110,-90,-81,-82,-110,-110,-110,-110,-110,-110,-110,-110,-110,-110,-110,-110,-110,-110,-110,-110]])
 
 max_X = 10.7629254700000
 max_Y = 106.682092800000
@@ -26,30 +24,22 @@ min_Y = 106.681507800000
 
 firebase = firebase.FirebaseApplication("https://indoornavigationdatabase.firebaseio.com")
 
-# """Get data from Firebase"""
-# result = firebase.get('/Data','Latitude')
-# """push data into Firebase"""
-# resultput = firebase.put('/Data','RSS','-90')
-# print("result la",result)
-
-
 cred = credentials.Certificate("indoornavigationdatabase-firebase-adminsdk-h5z5q-4a356180a1.json")
 # Initialize the app with a service account, granting admin privileges
 firebase_admin.initialize_app(cred, {"databaseURL": "https://indoornavigationdatabase.firebaseio.com"})
 root = db.reference()
-print(root.get())
 
 def call_function(message):
-  print( message["event"])
-  print(message["path"])
-  print("RSS: ",db.reference("Data").child("RSS").get())
+
+  print("RSS data",message)
   result = db.reference("Data").child("RSS").get()
   results = list(map(int, result.split()))
   res = np.array([results])
   t = MinMaxCoorEst(WKNN(DataTrain,CoordinatesTrainData,res,2))
-  firebase.put('/Data','Latitude',t[0,0])
-  firebase.put('/Data','Longtitude',t[0,1])
-
+  firebase.put('/Location','latitude',str(t[0,0])+";"+str(t[0,1]))
+  # firebase.put('/Location','latitude',t[0,0])
+  # firebase.put('/Location','longtitude',t[0,1])
+  print(t)
 
 my_stream_question_requested = db.reference("Data").child("RSS").stream(call_function, stream_id="new stream")
 
