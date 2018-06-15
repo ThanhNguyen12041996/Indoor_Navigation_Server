@@ -1,2 +1,2 @@
 # Indoor_Navigation_Server
-Version 1_Trainning and Processing Data
+This is Server program of Indoor Navigation System. It will calculate the corresponding location for user which depend on Received Signal Strength before.
